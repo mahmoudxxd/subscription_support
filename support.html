@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Subscription Support</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --primary: #4f46e5;
+  --primary-light: #6366f1;
+  --primary-pale: #eef2ff;
+  --primary-glow: rgba(79,70,229,0.15);
+  --success: #059669;
+  --success-light: #10b981;
+  --success-pale: #ecfdf5;
+  --warning: #d97706;
+  --warning-light: #f59e0b;
+  --warning-pale: #fffbeb;
+  --danger: #dc2626;
+  --danger-light: #ef4444;
+  --danger-pale: #fef2f2;
+  --info: #0284c7;
+  --info-light: #0ea5e9;
+  --info-pale: #f0f9ff;
+  --bg: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-raised: #f1f5f9;
+  --text: #0f172a;
+  --text-2: #475569;
+  --text-3: #94a3b8;
+  --border: #e2e8f0;
+  --border-2: #cbd5e1;
+  --shadow-xs: 0 1px 3px rgba(15,23,42,0.06);
+  --shadow-sm: 0 2px 8px rgba(15,23,42,0.08);
+  --shadow-md: 0 4px 20px rgba(15,23,42,0.10);
+  --shadow-lg: 0 12px 40px rgba(15,23,42,0.14);
+  --shadow-xl: 0 24px 64px rgba(15,23,42,0.18);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+}
+
+:root.dark {
+  --primary: #818cf8;
+  --primary-light: #a5b4fc;
+  --primary-pale: rgba(129,140,248,0.12);
+  --primary-glow: rgba(129,140,248,0.2);
+  --success: #34d399;
+  --success-light: #6ee7b7;
+  --success-pale: rgba(52,211,153,0.1);
+  --warning: #fbbf24;
+  --warning-light: #fcd34d;
+  --warning-pale: rgba(251,191,36,0.1);
+  --danger: #f87171;
+  --danger-light: #fca5a5;
+  --danger-pale: rgba(248,113,113,0.1);
+  --info: #38bdf8;
+  --info-light: #7dd3fc;
+  --info-pale: rgba(56,189,248,0.1);
+  --bg: #0f172a;
+  --bg-card: #1e293b;
+  --bg-raised: #162032;
+  --text: #f1f5f9;
+  --text-2: #cbd5e1;
+  --text-3: #64748b;
+  --border: #2d3f55;
+  --border-2: #3d5068;
+  --shadow-xs: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.35);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.45);
+  --shadow-xl: 0 24px 64px rgba(0,0,0,0.5);
+}
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 16px;
+  transition: background 0.3s, color 0.3s;
+  line-height: 1.5;
+}
+
+.container { max-width: 1440px; margin: 0 auto; }
+
+/* ── HEADER ── */
+.header {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 4px 12px var(--primary-glow);
+  flex-shrink: 0;
+  transition: transform 0.3s;
+}
+.logo:hover { transform: rotate(-8deg) scale(1.08); }
+
+.title h1 {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--primary);
+  letter-spacing: -0.5px;
+}
+.title p { color: var(--text-2); font-size: 0.82rem; font-weight: 600; }
+
+.header-actions {
+  margin-right: auto;
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search-box { position: relative; flex: 1; min-width: 240px; }
+
+.search {
+  width: 100%;
+  padding: 11px 16px 11px 42px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: var(--bg-raised);
+  font-size: 0.92rem;
+  font-family: 'Cairo', sans-serif;
+  color: var(--text);
+  transition: all 0.2s;
+}
+.search:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+  background: var(--bg-card);
+}
+.search::placeholder { color: var(--text-3); }
+.search-icon {
+  position: absolute; right: 13px; top: 50%;
+  transform: translateY(-50%); font-size: 1rem;
+  color: var(--text-3); pointer-events: none;
+}
+
+/* ── BUTTONS ── */
+.btn {
+  padding: 10px 18px;
+  border: none; border-radius: var(--radius-sm);
+  cursor: pointer; font-weight: 700; font-size: 0.88rem;
+  font-family: 'Cairo', sans-serif;
+  display: inline-flex; align-items: center; gap: 7px;
+  transition: all 0.2s; white-space: nowrap;
+  box-shadow: var(--shadow-xs); position: relative;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.btn:active { transform: translateY(0); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: #4338ca; }
+.btn-secondary {
+  background: var(--bg-raised); color: var(--text-2);
+  border: 1.5px solid var(--border);
+}
+.btn-secondary:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-pale); }
+.btn-success { background: var(--success); color: #fff; }
+.btn-success:hover { background: #047857; }
+.btn-warning { background: var(--warning); color: #fff; }
+.btn-warning:hover { background: #b45309; }
+.btn-info { background: var(--info); color: #fff; }
+.btn-info:hover { background: #0369a1; }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-danger:hover { background: #b91c1c; }
+.btn-sm { padding: 7px 13px; font-size: 0.82rem; border-radius: var(--radius-xs); }
+.btn-icon { padding: 8px 11px; }
+
+.btn-today {
+  background: linear-gradient(135deg, #dc2626, #ea580c);
+  color: #fff;
+  animation: pulse-red 2.5s ease-in-out infinite;
+}
+@keyframes pulse-red {
+  0%,100% { box-shadow: 0 0 0 0 rgba(220,38,38,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(220,38,38,0); }
+}
+
+/* ── STATS ── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  padding: 18px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-xs);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; gap: 14px;
+  transition: all 0.2s;
+  cursor: default; position: relative; overflow: hidden;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 4px; height: 100%;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.sc-primary::before { background: var(--primary); }
+.sc-danger::before  { background: var(--danger); }
+.sc-warning::before { background: var(--warning); }
+.sc-success::before { background: var(--success); }
+
+.stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+
+.stat-icon {
+  width: 48px; height: 48px; border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; flex-shrink: 0;
+}
+.si-primary { background: var(--primary-pale); }
+.si-danger  { background: var(--danger-pale); }
+.si-warning { background: var(--warning-pale); }
+.si-success { background: var(--success-pale); }
+
+.stat-value { font-size: 1.9rem; font-weight: 900; line-height: 1; color: var(--text); font-family: 'Cairo', sans-serif; }
+.stat-label { font-size: 0.82rem; color: var(--text-2); font-weight: 700; margin-top: 3px; }
+
+/* ── TABLE ── */
+.table-wrapper {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 8px;
+  background: var(--bg-raised);
+}
+
+.table-toolbar-title {
+  font-weight: 800; font-size: 0.9rem; color: var(--text-2);
+}
+
+.selection-bar {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  background: var(--primary-pale);
+  border: 1.5px solid var(--primary);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 0.88rem;
+}
+.selection-bar.visible { display: flex; }
+
+.table-scroll { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; }
+
+thead th {
+  padding: 12px 14px;
+  text-align: center;
+  font-weight: 800;
+  color: var(--text-2);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  background: var(--bg-raised);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s;
+  font-family: 'Cairo', sans-serif;
+}
+thead th:hover { color: var(--primary); }
+thead th.sorted-asc::after { content: ' ▲'; color: var(--primary); }
+thead th.sorted-desc::after { content: ' ▼'; color: var(--primary); }
+thead th.sortable::after { content: ' ⇅'; opacity: 0.3; }
+
+tbody td {
+  padding: 13px 14px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--text);
+  transition: background 0.15s;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr { transition: background 0.12s; }
+tbody tr:hover td { background: var(--bg-raised); }
+
+/* row accent */
+.row-today td:nth-child(2) { border-right: 3px solid var(--danger); }
+.row-tomorrow td:nth-child(2) { border-right: 3px solid var(--warning); }
+
+.code-badge {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff;
+  padding: 4px 11px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.4px;
+  display: inline-block;
+}
+
+.status-badge {
+  padding: 4px 11px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  display: inline-block;
+}
+.s-today    { background: var(--danger-pale);  color: var(--danger);  }
+.s-tomorrow { background: var(--warning-pale); color: var(--warning); }
+.s-soon     { background: var(--success-pale); color: var(--success); }
+
+.action-btns { display: flex; gap: 5px; justify-content: center; }
+
+.client-checkbox {
+  width: 17px; height: 17px;
+  cursor: pointer; accent-color: var(--primary);
+}
+
+/* ── EMPTY ── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-2);
+}
+.empty-icon { font-size: 3.5rem; margin-bottom: 14px; opacity: 0.3; animation: float 3s ease-in-out infinite; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.empty-state h3 { font-size: 1.1rem; font-weight: 800; color: var(--text); margin-bottom: 5px; }
+.empty-state p { color: var(--text-3); font-size: 0.88rem; }
+
+/* ── QUEUE PANEL ── */
+.queue-panel {
+  position: fixed; bottom: 20px; left: 20px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-xl);
+  border: 2px solid var(--primary);
+  max-width: 360px;
+  width: calc(100% - 40px);
+  z-index: 1000;
+  transform: translateY(160%);
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.queue-panel.active { transform: translateY(0); }
+
+.queue-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px;
+}
+.queue-header h3 { font-size: 1rem; font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 7px; }
+
+.queue-close {
+  background: none; border: none; font-size: 1rem; cursor: pointer;
+  color: var(--text-3); width: 30px; height: 30px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.queue-close:hover { background: var(--danger-pale); color: var(--danger); }
+
+.queue-progress-bar {
+  height: 6px; background: var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 6px;
+}
+.queue-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  border-radius: 6px; transition: width 0.4s ease;
+}
+.queue-progress-text { font-size: 0.8rem; color: var(--text-2); font-weight: 700; text-align: left; margin-bottom: 12px; }
+
+.queue-current {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.queue-current-label { font-size: 0.74rem; color: var(--text-3); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.queue-current-info { display: flex; align-items: center; gap: 10px; }
+.queue-current-icon {
+  width: 38px; height: 38px; border-radius: 11px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.queue-current-code { font-weight: 900; font-size: 0.95rem; color: var(--primary); }
+.queue-current-mobile { font-size: 0.82rem; color: var(--text-2); font-weight: 600; }
+
+.queue-status-msg {
+  text-align: center; font-size: 0.82rem; font-weight: 700;
+  color: var(--warning); margin-bottom: 10px;
+  padding: 7px; background: var(--warning-pale); border-radius: 8px;
+  display: none; border: 1px solid rgba(217,119,6,0.2);
+}
+.queue-status-msg.visible { display: block; }
+
+.queue-actions { display: flex; gap: 8px; }
+.queue-actions .btn { flex: 1; justify-content: center; font-size: 0.85rem; }
+
+/* ── MODALS ── */
+.modal {
+  display: none; position: fixed; inset: 0;
+  background: rgba(15,23,42,0.7); backdrop-filter: blur(10px);
+  align-items: center; justify-content: center;
+  padding: 20px; z-index: 999;
+}
+.modal.show { display: flex; }
+
+.modal-content {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 28px;
+  max-width: 800px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  animation: slideUp 0.3s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border);
+}
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(30px) scale(0.97); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+
+.modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 22px; padding-bottom: 16px; border-bottom: 2px solid var(--border);
+}
+.modal-header h3 { font-size: 1.3rem; font-weight: 900; color: var(--primary); }
+
+.close-btn {
+  background: var(--bg-raised); border: none;
+  width: 36px; height: 36px; border-radius: 9px;
+  font-size: 1rem; cursor: pointer; color: var(--text-2);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.close-btn:hover { background: var(--danger-pale); color: var(--danger); transform: rotate(90deg); }
+
+.form-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-bottom: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-weight: 800; font-size: 0.84rem; color: var(--text-2); }
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 11px 14px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: var(--bg-raised); font-size: 0.9rem;
+  font-family: 'Cairo',sans-serif; color: var(--text);
+  transition: all 0.2s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none; border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+  background: var(--bg-card);
+}
+textarea { min-height: 100px; resize: vertical; }
+
+.modal-footer {
+  display: flex; gap: 10px; justify-content: flex-end;
+  padding-top: 18px; border-top: 2px solid var(--border);
+}
+
+.client-form-block {
+  background: var(--bg-raised);
+  border: 1.5px dashed var(--border-2);
+  border-radius: var(--radius); padding: 20px;
+  margin-bottom: 14px; transition: border-color 0.2s;
+}
+.client-form-block:hover { border-color: var(--primary); }
+.client-form-block .cfb-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1.5px solid var(--border);
+}
+.client-form-block .cfb-header h4 { font-size: 0.95rem; font-weight: 900; color: var(--primary); }
+.remove-form-btn {
+  background: var(--danger-pale); color: var(--danger);
+  border: 1px solid rgba(220,38,38,0.3); border-radius: 8px;
+  padding: 6px 12px; cursor: pointer; font-weight: 700; font-size: 0.82rem;
+  transition: all 0.2s; font-family:'Cairo',sans-serif;
+}
+.remove-form-btn:hover { background: var(--danger); color: #fff; }
+
+/* ── BULK ── */
+.bulk-preview {
+  margin-top: 16px; max-height: 300px; overflow-y: auto;
+  border-radius: var(--radius-sm); padding: 12px;
+  border: 1.5px dashed var(--border); background: var(--bg-raised);
+}
+.bulk-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 12px; border-bottom: 1px solid var(--border);
+  border-radius: 8px; margin-bottom: 6px;
+  background: var(--bg-card); transition: all 0.15s;
+}
+.bulk-item:hover { transform: translateX(-3px); box-shadow: var(--shadow-xs); }
+.bulk-item:last-child { border-bottom: none; margin-bottom: 0; }
+
+/* ── TOAST ── */
+.toast-container {
+  position: fixed; bottom: 20px; right: 20px;
+  z-index: 1200; display: flex; flex-direction: column; gap: 8px;
+}
+.toast {
+  padding: 12px 18px; border-radius: var(--radius-sm); color: #fff;
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 700; font-size: 0.88rem;
+  animation: toastIn 0.3s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: var(--shadow-lg); min-width: 240px;
+  font-family: 'Cairo', sans-serif;
+}
+@keyframes toastIn { from{opacity:0;transform:translateX(60px)} to{opacity:1;transform:translateX(0)} }
+.toast.success { background: var(--success); }
+.toast.error   { background: var(--danger); }
+.toast.warning { background: var(--warning); }
+.toast.info    { background: var(--primary); }
+
+/* ── BADGE AUTO-SELECT ── */
+.auto-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--danger-pale); color: var(--danger);
+  border: 1px solid rgba(220,38,38,0.3);
+  border-radius: 20px; padding: 3px 10px;
+  font-size: 0.78rem; font-weight: 700;
+  animation: blink-border 1.5s ease-in-out infinite;
+}
+@keyframes blink-border {
+  0%,100% { border-color: rgba(220,38,38,0.3); }
+  50% { border-color: var(--danger); }
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: var(--bg-raised); border-radius: 8px; }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 8px; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px) {
+  .stats { grid-template-columns: repeat(2,1fr); }
+}
+@media(max-width:640px) {
+  .stats { grid-template-columns: 1fr 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .header-top { flex-wrap: wrap; }
+  .title h1 { font-size: 1.2rem; }
+  body { padding: 10px; }
+  .stat-value { font-size: 1.6rem; }
+  .modal-content { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="logo">🚀</div>
+      <div class="title">
+        <h1>Subscription Support</h1>
+        <p>نظام إدارة الاشتراكات والعملاء</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-secondary btn-sm" id="themeBtn">🌙 ليلي</button>
+        <button class="btn btn-secondary btn-sm" id="exportBtn">📤 CSV</button>
+        <button class="btn btn-secondary btn-sm" id="backupBtn">📦 نسخة</button>
+        <button class="btn btn-secondary btn-sm" id="restoreBtn">♻️ استعادة</button>
+        <input type="file" id="restoreInput" accept=".json" hidden>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="search-box">
+        <input type="text" class="search" id="searchInput" placeholder="ابحث بالكود، الموبايل، أو الأرضي...">
+        <span class="search-icon">🔍</span>
+      </div>
+      <button class="btn btn-primary" id="addBtn">➕ إضافة عميل</button>
+      <button class="btn btn-today" id="selectTodayBtn">📅 تحديد اليوم</button>
+      <button class="btn btn-secondary" id="importBtn">📋 استيراد شات</button>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat-card sc-primary">
+      <div class="stat-icon si-primary">👥</div>
+      <div>
+        <div class="stat-value" id="totalStat">0</div>
+        <div class="stat-label">إجمالي العملاء</div>
+      </div>
+    </div>
+    <div class="stat-card sc-danger">
+      <div class="stat-icon si-danger">🔥</div>
+      <div>
+        <div class="stat-value" id="todayStat">0</div>
+        <div class="stat-label">النهارده</div>
+      </div>
+    </div>
+    <div class="stat-card sc-warning">
+      <div class="stat-icon si-warning">⏰</div>
+      <div>
+        <div class="stat-value" id="tomorrowStat">0</div>
+        <div class="stat-label">بكرة</div>
+      </div>
+    </div>
+    <div class="stat-card sc-success">
+      <div class="stat-icon si-success">✅</div>
+      <div>
+        <div class="stat-value" id="soonStat">0</div>
+        <div class="stat-label">باقي الشهر</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrapper">
+    <div class="table-toolbar">
+      <span class="table-toolbar-title" id="tableTitle">جميع العملاء</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <div class="selection-bar" id="selectionBar">
+          <span>✅ تم تحديد <strong id="selectedCount">0</strong> عميل</span>
+          <button class="btn btn-warning btn-sm" id="sendQueueBtn">📨 إرسال واحد واحد</button>
+          <button class="btn btn-info btn-sm" id="sendBulkBtn">📤 إرسال للموظفة</button>
+          <button class="btn btn-secondary btn-sm" id="clearSelectionBtn">✖</button>
+        </div>
+      </div>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:46px;"><input type="checkbox" id="selectAllChk" class="client-checkbox"></th>
+            <th class="sortable" data-sort="code">رمز العميل</th>
+            <th class="sortable" data-sort="mobile">موبايل (واتساب)</th>
+            <th>رقم أرضي</th>
+            <th class="sortable" data-sort="day">يوم التجديد</th>
+            <th>الباقة</th>
+            <th>الحالة</th>
+            <th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- QUEUE PANEL -->
+<div class="queue-panel" id="queuePanel">
+  <div class="queue-header">
+    <h3>📨 قائمة الإرسال</h3>
+    <button class="queue-close" id="queueClose">✖</button>
+  </div>
+  <div class="queue-progress-bar">
+    <div class="queue-progress-fill" id="queueFill" style="width:0%"></div>
+  </div>
+  <div class="queue-progress-text" id="queueProgressText">0 من 0</div>
+
+  <div class="queue-current">
+    <div class="queue-current-label">العميل الحالي</div>
+    <div class="queue-current-info">
+      <div class="queue-current-icon">💬</div>
+      <div>
+        <div class="queue-current-code" id="qCurrentCode">-</div>
+        <div class="queue-current-mobile" id="qCurrentMobile">-</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="queue-status-msg" id="queueStatusMsg">⏳ افتح واتساب وابعت الرسالة، بعدين اضغط "التالي"</div>
+
+  <div class="queue-actions">
+    <button class="btn btn-success" id="qOpenBtn">🚀 فتح واتساب</button>
+    <button class="btn btn-primary" id="qNextBtn">التالي ▶️</button>
+  </div>
+</div>
+
+<!-- ADD/EDIT MODAL -->
+<div class="modal" id="clientModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">إضافة عملاء</h3>
+      <button class="close-btn" id="closeModal1">✖</button>
+    </div>
+    <div id="clientFormsContainer"></div>
+    <div style="text-align:center;margin:14px 0;">
+      <button class="btn btn-primary" id="addMoreBtn">➕ إضافة عميل آخر</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelBtn">إلغاء</button>
+      <button class="btn btn-success" id="saveBtn">💾 حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- BULK IMPORT MODAL -->
+<div class="modal" id="bulkModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>استيراد أرقام من المحادثة</h3>
+      <button class="close-btn" id="closeModal2">✖</button>
+    </div>
+    <div class="form-group">
+      <label>الصق نص المحادثة هنا</label>
+      <textarea id="bulkText" placeholder="الصق المحادثة كاملة هنا..."></textarea>
+    </div>
+    <div style="display:flex;gap:10px;margin:14px 0;flex-wrap:wrap;align-items:center;">
+      <label style="font-weight:700;color:var(--text-2);">يوم التجديد:</label>
+      <input type="number" id="bulkDay" min="1" max="31"
+        style="width:80px;padding:9px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg-raised);color:var(--text);font-weight:700;font-family:'Cairo',sans-serif;">
+      <button class="btn btn-secondary btn-sm" id="previewBtn">👁️ معاينة</button>
+      <button class="btn btn-success btn-sm" id="importConfirmBtn">✅ استيراد</button>
+    </div>
+    <div id="bulkPreview" class="bulk-preview" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- TOASTS -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+/* ===== DATA ===== */
+let clients = [];
+let editIndex = null;
+let sortColumn = 'day_smart';
+let sortDirection = 'asc';
+const STORAGE_KEY = 'sub_support_v3';
+const EMPLOYEE_WA = '201020805887';
+
+/* ===== QUEUE ===== */
+let selectedClients = new Set();
+let queue = [];
+let qIdx = 0;
+let qActive = false;
+let qOpened = false;
+
+/* ===== UTILS ===== */
+function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(clients)); } catch(e){} }
+function load() {
+  try {
+    // Try new key first, then fallback to old key
+    let d = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('sub_support_v2');
+    clients = d ? JSON.parse(d) : [];
+  } catch(e) { clients = []; }
+}
+function genCode() { return 'C-' + Math.floor(1000 + Math.random()*8999); }
+function esc(t) {
+  if(t==null) return '';
+  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function normalizePhone(p) {
+  if(!p) return null;
+  let s = p.replace(/\D/g,'');
+  if(s.length===12 && s.startsWith('20')) return s;
+  if(s.length===11 && s.startsWith('0'))  return '20'+s.slice(1);
+  if(s.length===10 && s.startsWith('1'))  return '20'+s;
+  return null;
+}
+
+function toast(msg, type='info') {
+  const c = document.getElementById('toastContainer');
+  const d = document.createElement('div');
+  d.className = `toast ${type}`;
+  const icons = {success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
+  d.innerHTML = `<span style="font-size:1.1rem">${icons[type]}</span><span>${msg}</span>`;
+  c.appendChild(d);
+  setTimeout(()=>{ d.style.opacity='0'; d.style.transition='opacity 0.3s'; setTimeout(()=>d.remove(),300); }, 3200);
+}
+
+/* ===== STATUS ===== */
+function getStatus(day) {
+  if(!day) return {s:'soon', l:'غير محدد', c:'s-soon', order:99};
+  const today = new Date().getDate();
+  const d = parseInt(day,10);
+  if(d === today) return {s:'today', l:'النهارده 🔥', c:'s-today', order:0};
+  if(d === today+1 || (today>=30 && d===1)) return {s:'tomorrow', l:'بكرة ⏰', c:'s-tomorrow', order:1};
+  return {s:'soon', l:'قريباً', c:'s-soon', order:2};
+}
+
+function smartDayOrder(day) {
+  if(!day) return 999;
+  const today = new Date().getDate();
+  const d = parseInt(day,10);
+  return ((d - today + 31) % 31);
+}
+
+/* ===== AUTO-SELECT TODAY on load ===== */
+function autoSelectToday(silent=false) {
+  const today = new Date().getDate();
+  let count = 0;
+  clients.forEach((c, i) => {
+    if(parseInt(c.day,10) === today) {
+      selectedClients.add(i);
+      count++;
+    }
+  });
+  updateSelectionUI();
+  if(!silent && count > 0) {
+    setTimeout(()=> toast(`📅 تم تحديد ${count} عميل تلقائياً لتجديد اليوم`, 'info'), 700);
+  }
+}
+
+/* ===== SELECT TODAY (manual) ===== */
+function selectToday() {
+  const today = new Date().getDate();
+  selectedClients.clear();
+  let count = 0;
+  clients.forEach((c, i) => {
+    if(parseInt(c.day,10) === today) {
+      selectedClients.add(i);
+      count++;
+    }
+  });
+  if(count === 0) { toast('لا يوجد عملاء اليوم', 'warning'); return; }
+  updateSelectionUI();
+  render();
+  toast(`✅ تم تحديد ${count} عميل اليوم`, 'success');
+}
+
+/* ===== RENDER ===== */
+function render() {
+  const tbody = document.getElementById('tableBody');
+  const search = document.getElementById('searchInput').value.toLowerCase().trim();
+
+  let filtered = clients.map((c,i) => ({...c, _idx:i})).filter(c => {
+    if(!search) return true;
+    return (c.code||'').toLowerCase().includes(search)
+        || (c.mobile||'').toLowerCase().includes(search)
+        || (c.landline||'').toLowerCase().includes(search);
+  });
+
+  filtered.sort((a,b) => {
+    let va, vb;
+    if(sortColumn === 'day' || sortColumn === 'day_smart') {
+      va = smartDayOrder(a.day); vb = smartDayOrder(b.day);
+    } else if(sortColumn === 'code') {
+      va = (a.code||'').toLowerCase(); vb = (b.code||'').toLowerCase();
+    } else if(sortColumn === 'mobile') {
+      va = (a.mobile||'').toLowerCase(); vb = (b.mobile||'').toLowerCase();
+    } else {
+      va = smartDayOrder(a.day); vb = smartDayOrder(b.day);
+    }
+    if(va < vb) return sortDirection==='asc' ? -1 : 1;
+    if(va > vb) return sortDirection==='asc' ? 1 : -1;
+    return 0;
+  });
+
+  tbody.innerHTML = '';
+  let todayCount=0, tomorrowCount=0, soonCount=0;
+
+  if(filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <h3>لا توجد نتائج</h3>
+      <p>ابدأ بإضافة عميل أو غيّر مصطلح البحث</p>
+    </div></td></tr>`;
+  } else {
+    filtered.forEach(c => {
+      const st = getStatus(c.day);
+      if(st.s==='today')    todayCount++;
+      if(st.s==='tomorrow') tomorrowCount++;
+      if(st.s==='soon')     soonCount++;
+
+      const checked = selectedClients.has(c._idx) ? 'checked' : '';
+      const tr = document.createElement('tr');
+      tr.className = `row-${st.s}`;
+      tr.innerHTML = `
+        <td><input type="checkbox" class="client-checkbox" data-index="${c._idx}" ${checked}></td>
+        <td><span class="code-badge">${esc(c.code)}</span></td>
+        <td style="font-weight:700;">${esc(c.mobile||'-')}</td>
+        <td style="color:var(--text-2);font-size:0.88rem;">${esc(c.landline||'-')}</td>
+        <td><strong style="font-size:1.05rem;">${esc(c.day||'-')}</strong></td>
+        <td style="font-weight:600;">${esc(c.plan||'-')}</td>
+        <td><span class="status-badge ${st.c}">${st.l}</span></td>
+        <td>
+          <div class="action-btns">
+            <button class="btn btn-secondary btn-sm btn-icon" onclick="editClient(${c._idx})" title="تعديل">✏️</button>
+            <button class="btn btn-success btn-sm btn-icon" onclick="sendWA(${c._idx})" title="واتساب">💬</button>
+            <button class="btn btn-danger btn-sm btn-icon" onclick="delClient(${c._idx})" title="حذف">🗑️</button>
+          </div>
+        </td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById('totalStat').textContent    = clients.length;
+  document.getElementById('todayStat').textContent    = todayCount;
+  document.getElementById('tomorrowStat').textContent = tomorrowCount;
+  document.getElementById('soonStat').textContent     = soonCount;
+  document.getElementById('tableTitle').textContent   = `إجمالي العملاء: ${clients.length}`;
+
+  document.querySelectorAll('.client-checkbox').forEach(cb => {
+    cb.addEventListener('change', function() {
+      const idx = parseInt(this.dataset.index);
+      if(this.checked) selectedClients.add(idx);
+      else selectedClients.delete(idx);
+      updateSelectionUI();
+      updateSelectAll();
+    });
+  });
+
+  updateSelectAll();
+  updateSortHeaders();
+}
+
+function updateSelectAll() {
+  const allCbs = document.querySelectorAll('.client-checkbox');
+  const sel = document.getElementById('selectAllChk');
+  if(!allCbs.length) { sel.checked=false; sel.indeterminate=false; return; }
+  const n = Array.from(allCbs).filter(cb=>cb.checked).length;
+  if(n===0)               { sel.checked=false; sel.indeterminate=false; }
+  else if(n===allCbs.length) { sel.checked=true;  sel.indeterminate=false; }
+  else                    { sel.checked=false; sel.indeterminate=true;  }
+}
+
+function updateSelectionUI() {
+  const count = selectedClients.size;
+  document.getElementById('selectedCount').textContent = count;
+  const bar = document.getElementById('selectionBar');
+  if(count > 0) bar.classList.add('visible');
+  else          bar.classList.remove('visible');
+}
+
+function updateSortHeaders() {
+  document.querySelectorAll('thead th').forEach(th => {
+    th.classList.remove('sorted-asc','sorted-desc');
+    if(th.dataset.sort && th.dataset.sort===sortColumn) {
+      th.classList.add(sortDirection==='asc' ? 'sorted-asc' : 'sorted-desc');
+    }
+  });
+}
+
+/* ===== WHATSAPP - CLIENT MESSAGE ===== */
+function buildClientMsg(c) {
+  // Simple, clear reminder message
+  return `السلام عليكم 🌙
+مينساكش تغير الباقة لـ 140 عشان التجديد النهارده 🔄`;
+}
+
+/* ===== WHATSAPP - EMPLOYEE MESSAGE ===== */
+function buildEmployeeMsg(selectedList) {
+  const today = new Date();
+  const dayNames = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  const dayName = dayNames[today.getDay()];
+  const dateStr = today.toLocaleDateString('ar-EG', {year:'numeric', month:'long', day:'numeric'});
+
+  let msg = `🔄 *رفع باقات التجديد*\n`;
+  msg += `📅 ${dayName} — ${dateStr}\n`;
+  msg += `━━━━━━━━━━━━━━━━\n\n`;
+
+  selectedList.forEach((c, i) => {
+    msg += `*${i+1}.* `;
+    if(c.landline) msg += `☎️ ${c.landline}  `;
+    msg += `📦 ${c.plan || 'غير محدد'}\n`;
+  });
+
+  msg += `\n━━━━━━━━━━━━━━━━\n`;
+  msg += `📊 الإجمالي: *${selectedList.length}* عميل\n`;
+  msg += `_Subscription Support_`;
+  return msg;
+}
+
+function sendWA(idx) {
+  const c = clients[idx];
+  if(!c?.mobile) { toast('لا يوجد رقم موبايل', 'warning'); return; }
+  const phone = normalizePhone(c.mobile);
+  if(!phone) { toast('رقم غير صالح', 'error'); return; }
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(buildClientMsg(c))}`, '_blank');
+  toast('تم فتح واتساب', 'success');
+}
+
+/* ===== QUEUE ===== */
+function initQueue() {
+  queue = Array.from(selectedClients).filter(i => clients[i]?.mobile);
+  if(!queue.length) { toast('لا يوجد أرقام موبايل صالحة في التحديد', 'warning'); return; }
+  qIdx = 0; qActive = true; qOpened = false;
+  document.getElementById('queuePanel').classList.add('active');
+  updateQueueUI();
+  toast(`قائمة إرسال: ${queue.length} عميل`, 'success');
+}
+
+function updateQueueUI() {
+  if(!qActive || !queue.length) return;
+  const c = clients[queue[qIdx]];
+  if(!c) { nextInQueue(); return; }
+
+  const pct = (qIdx / queue.length) * 100;
+  document.getElementById('queueFill').style.width = pct+'%';
+  document.getElementById('queueProgressText').textContent = `${qIdx} من ${queue.length}`;
+  document.getElementById('qCurrentCode').textContent   = c.code   || '-';
+  document.getElementById('qCurrentMobile').textContent = c.mobile || '-';
+
+  document.getElementById('qOpenBtn').disabled = false;
+  document.getElementById('qNextBtn').disabled = !qOpened;
+
+  const msg = document.getElementById('queueStatusMsg');
+  if(!qOpened) msg.classList.remove('visible');
+  else         msg.classList.add('visible');
+}
+
+function openCurrentWA() {
+  if(!qActive || qIdx >= queue.length) return;
+  sendWA(queue[qIdx]);
+  qOpened = true;
+  document.getElementById('qNextBtn').disabled = false;
+  document.getElementById('queueStatusMsg').classList.add('visible');
+}
+
+function nextInQueue() {
+  if(!qActive) return;
+  qIdx++;
+  qOpened = false;
+  if(qIdx >= queue.length) { completeQueue(); return; }
+  updateQueueUI();
+  toast(`العميل ${qIdx+1} من ${queue.length}`, 'info');
+}
+
+function completeQueue() {
+  qActive = false;
+  document.getElementById('queuePanel').classList.remove('active');
+  document.getElementById('queueFill').style.width = '100%';
+  document.getElementById('queueProgressText').textContent = `${queue.length} من ${queue.length}`;
+  toast('🎉 تم الانتهاء من إرسال جميع الرسائل!', 'success');
+  selectedClients.clear(); updateSelectionUI(); render();
+}
+
+function closeQueue() {
+  if(qActive && qIdx < queue.length) {
+    if(!confirm('إيقاف قائمة الإرسال؟')) return;
+  }
+  qActive = false;
+  document.getElementById('queuePanel').classList.remove('active');
+}
+
+/* ===== BULK SEND TO EMPLOYEE ===== */
+function sendBulkToEmployee() {
+  if(!selectedClients.size) { toast('حدد عملاء أولاً', 'warning'); return; }
+  const selectedList = Array.from(selectedClients).map(i => clients[i]).filter(Boolean);
+  const msg = buildEmployeeMsg(selectedList);
+  window.open(`https://wa.me/${EMPLOYEE_WA}?text=${encodeURIComponent(msg)}`, '_blank');
+  toast(`تم إرسال ${selectedList.length} عميل للموظفة 📤`, 'success');
+}
+
+/* ===== EDIT / DELETE ===== */
+function planOptions(selected='') {
+  const plans = ['250+250','300+300','500+500','750+750','250+100','300+100','200+100'];
+  return `<option value="">اختر الباقة...</option>`
+    + plans.map(p=>`<option value="${p}" ${p===selected?'selected':''}>${p}</option>`).join('');
+}
+
+function editClient(idx) {
+  editIndex = idx;
+  const c = clients[idx];
+  const ctr = document.getElementById('clientFormsContainer');
+  ctr.innerHTML = `
+  <div class="client-form-block">
+    <div class="form-grid">
+      <div class="form-group"><label>رمز العميل</label>
+        <input class="codeInput" value="${esc(c.code)}" disabled></div>
+      <div class="form-group"><label>موبايل (واتساب) *</label>
+        <input class="mobileInput" type="tel" value="${esc(c.mobile||'')}"></div>
+      <div class="form-group"><label>رقم أرضي</label>
+        <input class="landlineInput" type="tel" value="${esc(c.landline||'')}"></div>
+      <div class="form-group"><label>يوم التجديد *</label>
+        <input class="dayInput" type="number" min="1" max="31" value="${esc(c.day||'')}"></div>
+      <div class="form-group"><label>الباقة *</label>
+        <select class="planInput">${planOptions(c.plan)}</select></div>
+      <div class="form-group"><label>ملاحظات</label>
+        <input class="notesInput" value="${esc(c.notes||'')}"></div>
+    </div>
+  </div>`;
+  document.getElementById('modalTitle').textContent = 'تعديل بيانات العميل';
+  document.getElementById('addMoreBtn').style.display = 'none';
+  document.getElementById('clientModal').classList.add('show');
+}
+
+function delClient(idx) {
+  if(!confirm('حذف هذا العميل؟')) return;
+  selectedClients.delete(idx);
+  clients.splice(idx, 1);
+  const ns = new Set();
+  selectedClients.forEach(i => { if(i > idx) ns.add(i-1); else if(i < idx) ns.add(i); });
+  selectedClients = ns;
+  save(); render(); updateSelectionUI();
+  toast('تم الحذف', 'success');
+}
+
+/* ===== ADD FORM ===== */
+let formCounter = 0;
+
+function createForm(isFirst=false) {
+  formCounter++;
+  const div = document.createElement('div');
+  div.className = 'client-form-block';
+  div.innerHTML = `
+    <div class="cfb-header">
+      <h4>عميل ${formCounter}</h4>
+      ${!isFirst ? '<button type="button" class="remove-form-btn" onclick="this.closest(\'.client-form-block\').remove()">✖ حذف</button>' : ''}
+    </div>
+    <div class="form-grid">
+      <div class="form-group"><label>رمز العميل *</label>
+        <input class="codeInput" value="${genCode()}"></div>
+      <div class="form-group"><label>موبايل (واتساب) *</label>
+        <input class="mobileInput" type="tel" placeholder="01012345678"></div>
+      <div class="form-group"><label>رقم أرضي</label>
+        <input class="landlineInput" type="tel" placeholder="0223456789"></div>
+      <div class="form-group"><label>يوم التجديد *</label>
+        <input class="dayInput" type="number" min="1" max="31" value="${new Date().getDate()}"></div>
+      <div class="form-group"><label>الباقة *</label>
+        <select class="planInput">${planOptions()}</select></div>
+      <div class="form-group"><label>ملاحظات</label>
+        <input class="notesInput" placeholder="ملاحظات..."></div>
+    </div>`;
+  return div;
+}
+
+/* ===== EVENTS ===== */
+document.getElementById('addBtn').onclick = () => {
+  editIndex = null; formCounter = 0;
+  const ctr = document.getElementById('clientFormsContainer');
+  ctr.innerHTML = '';
+  ctr.appendChild(createForm(true));
+  document.getElementById('modalTitle').textContent = 'إضافة عملاء';
+  document.getElementById('addMoreBtn').style.display = 'block';
+  document.getElementById('clientModal').classList.add('show');
+};
+
+document.getElementById('addMoreBtn').onclick = () => {
+  const ctr = document.getElementById('clientFormsContainer');
+  ctr.appendChild(createForm(false));
+  ctr.lastElementChild.scrollIntoView({behavior:'smooth'});
+};
+
+document.getElementById('saveBtn').onclick = () => {
+  if(editIndex !== null) {
+    const f = document.querySelector('.client-form-block');
+    const mobile   = f.querySelector('.mobileInput').value.trim();
+    const landline = f.querySelector('.landlineInput').value.trim();
+    const day      = parseInt(f.querySelector('.dayInput').value)||null;
+    const plan     = f.querySelector('.planInput').value.trim();
+    const notes    = f.querySelector('.notesInput').value.trim();
+    if(!mobile||!day||!plan) { toast('اكمل الحقول المطلوبة', 'warning'); return; }
+    clients[editIndex] = {...clients[editIndex], mobile, landline, day, plan, notes};
+    toast('تم التحديث ✅', 'success');
+  } else {
+    const blocks = document.querySelectorAll('.client-form-block');
+    let added=0, errs=[];
+    blocks.forEach((f,i)=>{
+      const code     = f.querySelector('.codeInput').value.trim();
+      const mobile   = f.querySelector('.mobileInput').value.trim();
+      const landline = f.querySelector('.landlineInput').value.trim();
+      const day      = parseInt(f.querySelector('.dayInput').value)||null;
+      const plan     = f.querySelector('.planInput').value.trim();
+      const notes    = f.querySelector('.notesInput').value.trim();
+      if(!code||!mobile||!day||!plan) { errs.push(`نموذج ${i+1}: بيانات ناقصة`); return; }
+      clients.push({code,mobile,landline,day,plan,notes});
+      added++;
+    });
+    if(added) toast(`تمت إضافة ${added} عميل 🎉`, 'success');
+    if(errs.length) setTimeout(()=>toast(errs.join(' • '), 'warning'), 500);
+  }
+  save(); render();
+  // Re-run auto-select after adding new clients
+  autoSelectToday(true);
+  updateSelectionUI();
+  render();
+  document.getElementById('clientModal').classList.remove('show');
+};
+
+document.getElementById('closeModal1').onclick = () => document.getElementById('clientModal').classList.remove('show');
+document.getElementById('cancelBtn').onclick    = () => document.getElementById('clientModal').classList.remove('show');
+
+document.getElementById('selectAllChk').addEventListener('change', function() {
+  const cbs = document.querySelectorAll('.client-checkbox');
+  cbs.forEach(cb => {
+    cb.checked = this.checked;
+    const idx = parseInt(cb.dataset.index);
+    if(this.checked) selectedClients.add(idx);
+    else selectedClients.delete(idx);
+  });
+  updateSelectionUI();
+});
+
+document.getElementById('clearSelectionBtn').onclick = () => {
+  selectedClients.clear(); updateSelectionUI(); render();
+};
+
+document.getElementById('selectTodayBtn').onclick = selectToday;
+document.getElementById('sendQueueBtn').onclick   = initQueue;
+document.getElementById('sendBulkBtn').onclick    = () => {
+  if(!selectedClients.size) { toast('حدد عملاء أولاً', 'warning'); return; }
+  if(confirm(`إرسال قائمة ${selectedClients.size} عميل للموظفة؟`)) sendBulkToEmployee();
+};
+
+document.getElementById('qOpenBtn').onclick   = openCurrentWA;
+document.getElementById('qNextBtn').onclick   = nextInQueue;
+document.getElementById('queueClose').onclick = closeQueue;
+document.getElementById('searchInput').oninput = render;
+
+document.querySelectorAll('thead th.sortable').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.sort;
+    if(sortColumn===col) sortDirection = sortDirection==='asc'?'desc':'asc';
+    else { sortColumn=col; sortDirection='asc'; }
+    render();
+  });
+});
+
+/* ===== EXPORT / BACKUP ===== */
+document.getElementById('exportBtn').onclick = () => {
+  if(!clients.length) { toast('لا بيانات للتصدير', 'warning'); return; }
+  let csv = 'رمز العميل,موبايل,أرضي,يوم التجديد,الباقة,الحالة,ملاحظات\n';
+  clients.forEach(c => {
+    const st = getStatus(c.day).l;
+    csv += `"${c.code||''}","${c.mobile||''}","${c.landline||''}","${c.day||''}","${c.plan||''}","${st}","${(c.notes||'').replace(/"/g,'""')}"\n`;
+  });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}));
+  a.download = `clients_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  toast('تم التصدير ✅', 'success');
+};
+
+document.getElementById('backupBtn').onclick = () => {
+  if(!clients.length) { toast('لا بيانات للنسخ', 'warning'); return; }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify({v:3,date:new Date().toISOString(),clients},null,2)],{type:'application/json'}));
+  a.download = `backup_${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  toast('تم إنشاء نسخة احتياطية ✅', 'success');
+};
+
+document.getElementById('restoreBtn').onclick = () => document.getElementById('restoreInput').click();
+document.getElementById('restoreInput').onchange = e => {
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const d = JSON.parse(ev.target.result);
+      if(!d.clients || !Array.isArray(d.clients)) { toast('ملف غير صالح', 'error'); return; }
+      clients = d.clients; selectedClients.clear();
+      save(); render();
+      autoSelectToday(false);
+      updateSelectionUI(); render();
+      toast('تم الاستعادة ✅', 'success');
+    } catch { toast('فشل قراءة الملف', 'error'); }
+  };
+  r.readAsText(f);
+};
+
+/* ===== IMPORT FROM CHAT ===== */
+document.getElementById('importBtn').onclick = () => {
+  document.getElementById('bulkDay').value = new Date().getDate();
+  document.getElementById('bulkText').value = '';
+  document.getElementById('bulkPreview').style.display = 'none';
+  document.getElementById('bulkModal').classList.add('show');
+};
+document.getElementById('closeModal2').onclick = () => document.getElementById('bulkModal').classList.remove('show');
+
+let extractedNums = [];
+document.getElementById('previewBtn').onclick = () => {
+  const text = document.getElementById('bulkText').value;
+  if(!text) { toast('الصق نص أولاً', 'warning'); return; }
+  const matches = text.match(/(?:\+?\d[\d\-\s\(\)]{4,}\d)/g)||[];
+  extractedNums = [...new Set(matches.map(n=>n.replace(/\D/g,'')).filter(n=>n.length>=6&&n.length<=13))];
+  const preview = document.getElementById('bulkPreview');
+  preview.innerHTML = '';
+  if(!extractedNums.length) {
+    preview.innerHTML = '<p style="text-align:center;padding:20px;color:var(--text-3)">لم يُعثر على أرقام</p>';
+    preview.style.display = 'block'; return;
+  }
+  extractedNums.forEach((num,i) => {
+    const isWA = normalizePhone(num) !== null;
+    const div = document.createElement('div');
+    div.className = 'bulk-item';
+    div.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;">
+        <input type="checkbox" id="bn${i}" value="${num}" checked class="client-checkbox">
+        <label for="bn${i}" style="font-weight:700;">${num}</label>
+        <span style="font-size:0.78rem;color:var(--text-3)">${isWA?'✅ واتساب':'⚠️ أرضي'}</span>
+      </div>
+      <button class="btn btn-secondary btn-sm" onclick="navigator.clipboard.writeText('${num}');toast('تم النسخ','success')">📋</button>`;
+    preview.appendChild(div);
+  });
+  preview.style.display = 'block';
+  toast(`تم العثور على ${extractedNums.length} رقم`, 'success');
+};
+
+document.getElementById('importConfirmBtn').onclick = () => {
+  const cbs = document.querySelectorAll('#bulkPreview input[type="checkbox"]:checked');
+  const day = parseInt(document.getElementById('bulkDay').value,10) || new Date().getDate();
+  if(!cbs.length) { toast('حدد أرقاماً أولاً', 'warning'); return; }
+  let imported = 0;
+  cbs.forEach(cb => {
+    const m = cb.value;
+    if(!clients.find(c=>c.mobile===m)) {
+      clients.push({code:genCode(), mobile:m, landline:'', day, plan:'', notes:'مستورد'});
+      imported++;
+    }
+  });
+  save(); render();
+  autoSelectToday(true); updateSelectionUI(); render();
+  document.getElementById('bulkModal').classList.remove('show');
+  toast(`تم استيراد ${imported} عميل ✅`, 'success');
+};
+
+/* ===== THEME ===== */
+document.getElementById('themeBtn').onclick = () => {
+  document.documentElement.classList.toggle('dark');
+  const dark = document.documentElement.classList.contains('dark');
+  document.getElementById('themeBtn').textContent = dark ? '☀️ نهاري' : '🌙 ليلي';
+  localStorage.setItem('theme', dark?'dark':'light');
+};
+if(localStorage.getItem('theme')==='dark') {
+  document.documentElement.classList.add('dark');
+  document.getElementById('themeBtn').textContent = '☀️ نهاري';
+}
+
+/* ===== INIT ===== */
+load();
+render();
+// Auto-select today's clients on load
+if(clients.length > 0) {
+  autoSelectToday(false);
+  render();
+} else {
+  setTimeout(()=>toast('مرحباً! ابدأ بإضافة عملاء 🚀','info'), 600);
+}
+</script>
+</body>
+</html>
