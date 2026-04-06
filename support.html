@@ -573,14 +573,6 @@ textarea { min-height:100px;resize:vertical; }
 .remove-form-btn { background:var(--danger-pale);color:var(--danger);border:1px solid rgba(220,38,38,0.3);border-radius:8px;padding:6px 12px;cursor:pointer;font-weight:700;font-size:0.82rem;transition:all 0.2s;font-family:'Cairo',sans-serif; }
 .remove-form-btn:hover { background:var(--danger);color:#fff; }
 
-/* FIREBASE SETUP MODAL */
-.fb-setup-modal { max-width:600px; }
-.fb-setup-modal .form-group input { font-family: monospace; font-size: 0.85rem; }
-.fb-hint { font-size:0.78rem;color:var(--text-3);margin-top:4px;font-weight:600; }
-.step-badge { background:var(--primary);color:#fff;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:900;margin-left:8px;flex-shrink:0; }
-.step-row { display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;padding:12px;background:var(--bg-raised);border-radius:var(--radius-sm);border:1px solid var(--border); }
-.step-text { font-size:0.88rem;color:var(--text-2);font-weight:600;line-height:1.5; }
-
 /* BULK */
 .bulk-preview { margin-top:16px;max-height:300px;overflow-y:auto;border-radius:var(--radius-sm);padding:12px;border:1.5px dashed var(--border);background:var(--bg-raised); }
 .bulk-item { display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--border);border-radius:8px;margin-bottom:6px;background:var(--bg-card);transition:all 0.15s; }
@@ -676,8 +668,6 @@ textarea { min-height:100px;resize:vertical; }
           <span class="fb-dot" id="fbDot" title="حالة الاتصال بالداتابيز"></span>
         </div>
         <button class="btn btn-secondary btn-sm" id="themeBtn">🌙 ليلي</button>
-        <!-- Admin-only buttons -->
-        <button class="btn btn-secondary btn-sm admin-only" id="fbSetupBtn">🔧 Firebase</button>
         <button class="btn btn-secondary btn-sm admin-only" id="exportBtn">📤 CSV</button>
         <button class="btn btn-secondary btn-sm admin-only" id="backupBtn">📦 نسخة</button>
         <button class="btn btn-secondary btn-sm admin-only" id="restoreBtn">♻️ استعادة</button>
@@ -783,73 +773,6 @@ textarea { min-height:100px;resize:vertical; }
   </div>
 </div>
 
-<!-- FIREBASE SETUP MODAL -->
-<div class="modal" id="fbSetupModal">
-  <div class="modal-content fb-setup-modal">
-    <div class="modal-header">
-      <h3>🔧 إعداد Firebase</h3>
-      <button class="close-btn" id="closeFbModal">✖</button>
-    </div>
-
-    <div style="margin-bottom:20px;">
-      <div class="step-row">
-        <span class="step-badge">1</span>
-        <div class="step-text">
-          روح على <strong>console.firebase.google.com</strong> → اعمل مشروع جديد → فعّل <strong>Firestore Database</strong> → اختار <em>Test mode</em> (للتجربة)
-        </div>
-      </div>
-      <div class="step-row">
-        <span class="step-badge">2</span>
-        <div class="step-text">
-          روح <strong>Project Settings ⚙️</strong> → General → Your apps → اضغط &lt;/&gt; (Web) → سجّل التطبيق → انسخ الـ <strong>firebaseConfig</strong>
-        </div>
-      </div>
-      <div class="step-row">
-        <span class="step-badge">3</span>
-        <div class="step-text">
-          الصق القيم دي هنا وبعدين اضغط <strong>حفظ واتصال</strong>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-grid">
-      <div class="form-group">
-        <label>API Key *</label>
-        <input type="text" id="fb_apiKey" placeholder="AIzaSy...">
-        <span class="fb-hint">apiKey من firebaseConfig</span>
-      </div>
-      <div class="form-group">
-        <label>Auth Domain *</label>
-        <input type="text" id="fb_authDomain" placeholder="myapp.firebaseapp.com">
-      </div>
-      <div class="form-group">
-        <label>Project ID *</label>
-        <input type="text" id="fb_projectId" placeholder="my-project-id">
-      </div>
-      <div class="form-group">
-        <label>Storage Bucket</label>
-        <input type="text" id="fb_storageBucket" placeholder="myapp.appspot.com">
-      </div>
-      <div class="form-group">
-        <label>Messaging Sender ID</label>
-        <input type="text" id="fb_messagingSenderId" placeholder="123456789">
-      </div>
-      <div class="form-group">
-        <label>App ID *</label>
-        <input type="text" id="fb_appId" placeholder="1:123:web:abc">
-      </div>
-    </div>
-
-    <div id="fbConnectStatus" style="display:none;padding:10px 14px;border-radius:10px;font-weight:700;font-size:0.88rem;margin-bottom:14px;"></div>
-
-    <div class="modal-footer">
-      <button class="btn btn-secondary" id="cancelFbBtn">إلغاء</button>
-      <button class="btn btn-danger btn-sm" id="clearFbBtn">🗑️ حذف الإعدادات</button>
-      <button class="btn btn-success" id="saveFbBtn">🔌 حفظ واتصال</button>
-    </div>
-  </div>
-</div>
-
 <!-- BULK IMPORT MODAL -->
 <div class="modal" id="bulkModal">
   <div class="modal-content">
@@ -887,10 +810,22 @@ const USERS = {
   asmaa:   { password:'123', role:'employee', displayName:'أستاذه أسماء', avatar:'أس', welcomeEmoji:'👩‍💼', welcomeSub:'أهلاً وسهلاً! جاهز نشتغل 😊' }
 };
 
-const FB_CONFIG_KEY = 'sub_fb_config_v1';
 const FALLBACK_KEY  = 'sub_support_v3';
 const EMPLOYEE_WA   = '201020805887';
 const COLLECTION    = 'clients';
+
+// ══════════════════════════════
+//   FIREBASE CONFIG (مدمج مباشرة)
+// ══════════════════════════════
+const FIREBASE_CONFIG = {
+  apiKey           : "AIzaSyAxaopR37cypYxhiIystQpLK0uRmoU7vnY",
+  authDomain       : "support-e6c67.firebaseapp.com",
+  projectId        : "support-e6c67",
+  storageBucket    : "support-e6c67.firebasestorage.app",
+  messagingSenderId: "849285637713",
+  appId            : "1:849285637713:web:fe64585796dad2d772fa70",
+  measurementId    : "G-KNBPPKJVKZ"
+};
 
 let currentUser = null;
 let clients = [];
@@ -952,11 +887,7 @@ function hideFbBanner() { document.getElementById('fbStatusBanner').classList.re
 /* ════════════════════════════════
    FIREBASE
 ════════════════════════════════ */
-function getFbConfig() {
-  try { return JSON.parse(localStorage.getItem(FB_CONFIG_KEY)||'null'); } catch { return null; }
-}
-function saveFbConfig(cfg) { localStorage.setItem(FB_CONFIG_KEY, JSON.stringify(cfg)); }
-function clearFbConfig()   { localStorage.removeItem(FB_CONFIG_KEY); }
+// Firebase config مدمج مباشرة في الكود — لا حاجة لإعداد يدوي
 
 async function connectFirebase(cfg) {
   try {
@@ -1109,27 +1040,18 @@ async function enterApp() {
     document.getElementById('themeBtn').textContent = '☀️ نهاري';
   }
 
-  // Try Firebase
-  const cfg = getFbConfig();
-  if(cfg && cfg.apiKey && cfg.projectId) {
-    showFbBanner('connecting','⏳ جاري الاتصال بـ Firebase...');
-    setFbDot('');
-    const ok = await connectFirebase(cfg);
-    if(!ok) {
-      // Fall back to local
-      clients = loadLocal();
-      render();
-      if(clients.length>0) { autoSelectToday(false); render(); }
-      else toast('تعذر الاتصال بـ Firebase — يعمل بشكل محلي 📦','warning');
-    }
-    // Firebase realtime listener will call render
-  } else {
-    // No Firebase config — local only
+  // Connect Firebase مباشرة بدون إعداد يدوي
+  showFbBanner('connecting','⏳ جاري الاتصال بـ Firebase...');
+  setFbDot('');
+  const ok = await connectFirebase(FIREBASE_CONFIG);
+  if(!ok) {
+    // Fall back to local
     clients = loadLocal();
     render();
     if(clients.length>0) { autoSelectToday(false); render(); }
-    else setTimeout(()=>toast('مرحباً! اضغط 🔧 Firebase لإعداد التزامن على كل الأجهزة 🚀','info'), 800);
+    else toast('تعذر الاتصال بـ Firebase — يعمل بشكل محلي 📦','warning');
   }
+  // Firebase realtime listener will call render
 }
 
 function applyRoleUI() {
@@ -1544,73 +1466,6 @@ document.querySelectorAll('thead th.sortable').forEach(th=>{
     render();
   });
 });
-
-/* ════════════════════════════════
-   FIREBASE SETUP MODAL
-════════════════════════════════ */
-document.getElementById('fbSetupBtn').onclick = ()=>{
-  if(currentUser?.role!=='admin') return;
-  // Load existing config
-  const cfg=getFbConfig()||{};
-  document.getElementById('fb_apiKey').value           = cfg.apiKey||'';
-  document.getElementById('fb_authDomain').value       = cfg.authDomain||'';
-  document.getElementById('fb_projectId').value        = cfg.projectId||'';
-  document.getElementById('fb_storageBucket').value    = cfg.storageBucket||'';
-  document.getElementById('fb_messagingSenderId').value= cfg.messagingSenderId||'';
-  document.getElementById('fb_appId').value            = cfg.appId||'';
-  document.getElementById('fbConnectStatus').style.display='none';
-  document.getElementById('fbSetupModal').classList.add('show');
-};
-document.getElementById('closeFbModal').onclick =()=>document.getElementById('fbSetupModal').classList.remove('show');
-document.getElementById('cancelFbBtn').onclick  =()=>document.getElementById('fbSetupModal').classList.remove('show');
-
-document.getElementById('clearFbBtn').onclick = ()=>{
-  if(!confirm('حذف إعدادات Firebase؟ ستعمل محلياً فقط.')) return;
-  clearFbConfig();
-  if(unsubscribeSnapshot){ unsubscribeSnapshot(); unsubscribeSnapshot=null; }
-  db=null; fbConnected=false;
-  setFbDot('error');
-  document.getElementById('fbSetupModal').classList.remove('show');
-  toast('تم حذف إعدادات Firebase','warning');
-};
-
-document.getElementById('saveFbBtn').onclick = async ()=>{
-  const cfg = {
-    apiKey           : document.getElementById('fb_apiKey').value.trim(),
-    authDomain       : document.getElementById('fb_authDomain').value.trim(),
-    projectId        : document.getElementById('fb_projectId').value.trim(),
-    storageBucket    : document.getElementById('fb_storageBucket').value.trim(),
-    messagingSenderId: document.getElementById('fb_messagingSenderId').value.trim(),
-    appId            : document.getElementById('fb_appId').value.trim(),
-  };
-  if(!cfg.apiKey||!cfg.projectId||!cfg.appId){
-    toast('اكمل الحقول المطلوبة (API Key, Project ID, App ID)','warning'); return;
-  }
-  const statusEl = document.getElementById('fbConnectStatus');
-  statusEl.style.display='block';
-  statusEl.style.background='var(--warning-pale)';
-  statusEl.style.color='var(--warning)';
-  statusEl.style.border='1px solid var(--warning)';
-  statusEl.textContent='⏳ جاري الاتصال...';
-  document.getElementById('saveFbBtn').disabled=true;
-
-  saveFbConfig(cfg);
-  const ok = await connectFirebase(cfg);
-
-  document.getElementById('saveFbBtn').disabled=false;
-  if(ok){
-    statusEl.style.background='var(--success-pale)';
-    statusEl.style.color='var(--success)';
-    statusEl.style.border='1px solid var(--success)';
-    statusEl.textContent='✅ تم الاتصال بنجاح! الداتا بتتزامن على كل الأجهزة 🎉';
-    setTimeout(()=>document.getElementById('fbSetupModal').classList.remove('show'),1800);
-  } else {
-    statusEl.style.background='var(--danger-pale)';
-    statusEl.style.color='var(--danger)';
-    statusEl.style.border='1px solid var(--danger)';
-    statusEl.textContent='❌ فشل الاتصال — تأكد من صحة البيانات وأن Firestore مفعّل';
-  }
-};
 
 /* ════════════════════════════════
    EXPORT / BACKUP (admin only)
