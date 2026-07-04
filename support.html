@@ -810,9 +810,158 @@ textarea { min-height: 100px; resize: vertical; }
   .edit-form-grid { grid-template-columns: 1fr; }
   .login-box { padding: 28px 20px; }
 }
+
+/* ── PLAN REQUEST BADGE ── */
+.req-badge {
+  position: relative;
+}
+.req-badge .badge-count {
+  position: absolute;
+  top: -6px; left: -6px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 900;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  animation: pulse-red 2s ease-in-out infinite;
+}
+.req-badge .badge-count.hidden { display: none; }
+
+.request-item {
+  background: var(--bg-raised);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+}
+.request-item:hover { border-color: var(--primary); transform: translateX(-3px); }
+.request-item .ri-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px;
+}
+.request-item .ri-client { font-weight: 800; color: var(--text); font-size: 0.95rem; }
+.request-item .ri-landline { font-size: 0.82rem; color: var(--text-2); }
+.request-item .ri-plans {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.88rem; margin-bottom: 12px;
+}
+.request-item .ri-arrow { color: var(--primary); font-weight: 900; font-size: 1.1rem; }
+.request-item .ri-actions { display: flex; gap: 8px; }
+
+/* ── CLIENT REQUEST STATUS ── */
+.pending-request-box {
+  background: var(--warning-pale);
+  border: 1.5px solid rgba(217,119,6,0.3);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+  animation: pulse-border 2s ease-in-out infinite;
+}
+@keyframes pulse-border {
+  0%,100% { border-color: rgba(217,119,6,0.3); }
+  50% { border-color: var(--warning); }
+}
+.pending-request-box .pri-icon { font-size: 1.5rem; }
+.pending-request-box .pri-text { font-size: 0.88rem; color: var(--text-2); font-weight: 700; }
+.pending-request-box .pri-plan { color: var(--primary); font-weight: 900; }
+
+/* ── LOADING OVERLAY ── */
+.loading-overlay {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px;
+  z-index: 9999;
+  transition: opacity 0.4s;
+}
+.loading-overlay.hidden { opacity: 0; pointer-events: none; }
+.loading-spinner {
+  width: 48px; height: 48px;
+  border: 4px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { color: var(--text-2); font-weight: 700; font-size: 0.9rem; }
+
+/* ── EXTRA PACKAGES ── */
+.extra-section {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
+  margin-bottom: 20px;
+}
+.extra-section h3 {
+  font-size: 1rem; font-weight: 900; color: var(--primary);
+  margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+}
+.extra-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.extra-card {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--bg-raised);
+  text-align: center;
+  position: relative;
+}
+.extra-card:hover { border-color: var(--success); background: var(--success-pale); transform: translateY(-2px); }
+.extra-card.chosen { border-color: var(--success); background: var(--success-pale); box-shadow: 0 0 0 3px rgba(5,150,105,0.15); }
+.extra-card .ename { font-weight: 800; color: var(--text); font-size: 0.9rem; }
+.extra-card .egift { font-size: 0.78rem; color: var(--success); font-weight: 700; margin-top: 3px; }
+.extra-card .eprice { font-weight: 900; color: var(--primary); font-size: 1rem; margin-top: 5px; }
+.extra-card .echeck { display: none; font-size: 1.2rem; position: absolute; top: 8px; left: 8px; }
+.extra-card.chosen .echeck { display: block; color: var(--success); }
+
+.pending-extra-box {
+  background: var(--info-pale);
+  border: 1.5px solid rgba(2,132,199,0.3);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+  animation: pulse-border-info 2s ease-in-out infinite;
+}
+@keyframes pulse-border-info {
+  0%,100% { border-color: rgba(2,132,199,0.3); }
+  50% { border-color: var(--info); }
+}
+
+.ri-type-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  margin-right: 6px;
+}
+.ri-type-plan { background: var(--primary-pale); color: var(--primary); }
+.ri-type-extra { background: var(--success-pale); color: var(--success); }
+
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">جاري تحميل البيانات...</div>
+</div>
 
 <!-- ═══════════════════════════
      LOGIN PAGE
@@ -832,7 +981,7 @@ textarea { min-height: 100px; resize: vertical; }
       <input type="password" id="loginPassword" placeholder="●●●" autocomplete="current-password">
     </div>
     <button class="login-btn-main" id="loginBtn">🔓 دخول</button>
-    <p class="login-hint">العملاء: رقم الأرضي + كلمة المرور 123</p>
+    <p class="login-hint">العملاء: رقم الأرضي + كلمة المرور هي آخر 3 أرقام من رقم الأرضي</p>
   </div>
 </div>
 
@@ -890,12 +1039,38 @@ textarea { min-height: 100px; resize: vertical; }
     <div class="notes-box" id="clientNotesBox">لا توجد ملاحظات</div>
   </div>
 
+  <!-- Pending Request Status -->
+  <div class="pending-request-box" id="clientPendingRequest" style="display:none;">
+    <div class="pri-icon">⏳</div>
+    <div>
+      <div class="pri-text">لديك طلب تغيير باقة قيد المراجعة</div>
+      <div class="pri-plan" id="clientPendingPlan"></div>
+    </div>
+  </div>
+
   <!-- Plan Change Section -->
   <div class="client-plan-section">
     <h3>🔄 طلب تغيير الباقة</h3>
-    <p style="color:var(--text-2);font-size:0.88rem;margin-bottom:16px;">اختر الباقة المناسبة وسيتم التواصل معك لتأكيد التغيير</p>
+    <p style="color:var(--text-2);font-size:0.88rem;margin-bottom:16px;">اختر الباقة المناسبة وسيتم مراجعة طلبك تلقائياً</p>
     <div class="plan-grid" id="clientPlanGrid"></div>
     <button class="btn btn-primary" id="clientRequestPlanBtn" disabled style="opacity:0.5;">📨 إرسال طلب التغيير</button>
+  </div>
+
+  <!-- Extra Packages Section -->
+  <div class="extra-section">
+    <h3>➕ طلب باقة إضافية</h3>
+    <p style="color:var(--text-2);font-size:0.88rem;margin-bottom:6px;">اختر باقة إضافية لزيادة سعة الإنترنت</p>
+    <p style="color:var(--success);font-size:0.8rem;font-weight:700;margin-bottom:16px;">✨ الأسعار شاملة الضريبة</p>
+    <!-- Pending Extra Request -->
+    <div class="pending-extra-box" id="clientPendingExtra" style="display:none;">
+      <div class="pri-icon">⏳</div>
+      <div>
+        <div class="pri-text">لديك طلب باقة إضافية قيد المراجعة</div>
+        <div class="pri-plan" id="clientPendingExtraPlan" style="color:var(--success);"></div>
+      </div>
+    </div>
+    <div class="extra-grid" id="clientExtraGrid"></div>
+    <button class="btn btn-success" id="clientRequestExtraBtn" disabled style="opacity:0.5;">📨 طلب الباقة الإضافية</button>
   </div>
 
   <!-- Edit Info Section -->
@@ -931,6 +1106,7 @@ textarea { min-height: 100px; resize: vertical; }
       </div>
       <div class="header-actions">
         <button class="btn btn-secondary btn-sm" id="themeBtn">🌙 ليلي</button>
+        <button class="btn btn-warning btn-sm req-badge" id="requestsBtn">📋 طلبات<span class="badge-count hidden" id="reqBadge">0</span></button>
         <button class="btn btn-secondary btn-sm" id="exportBtn">📤 CSV</button>
         <button class="btn btn-secondary btn-sm" id="backupBtn">📦 نسخة</button>
         <button class="btn btn-secondary btn-sm" id="restoreBtn">♻️ استعادة</button>
@@ -1086,19 +1262,78 @@ textarea { min-height: 100px; resize: vertical; }
   </div>
 </div>
 
+<!-- PLAN REQUESTS MODAL -->
+<div class="modal" id="requestsModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>📋 طلبات تغيير الباقة</h3>
+      <button class="close-btn" id="closeRequestsModal">✖</button>
+    </div>
+    <div id="requestsList"></div>
+  </div>
+</div>
+
 <!-- TOASTS -->
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
+/* ===== FIREBASE SETUP ===== */
+const firebaseConfig = {
+  apiKey: "AIzaSyAxaopR37cypYxhiIystQpLK0uRmoU7vnY",
+  authDomain: "support-e6c67.firebaseapp.com",
+  projectId: "support-e6c67",
+  storageBucket: "support-e6c67.firebasestorage.app",
+  messagingSenderId: "849285637713",
+  appId: "1:849285637713:web:75c64e40e115b56b72fa70",
+  measurementId: "G-EMCT5ZQ2BY"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const dataRef = db.collection('app').doc('data');
+let firestoreReady = false;
+
 /* ===== PLANS DATA ===== */
 const PLANS = [
   { value: '250+50',  label: '250 + 50',  price: '374 جنيه' },
   { value: '250+100', label: '250 + 100', price: '410 جنيه' },
-  { value: '300+100', label: '300 + 100', price: '432 جنيه' },
   { value: '300+150', label: '300 + 150', price: '478 جنيه' },
+  { value: '300+100', label: '300 + 100', price: '432 جنيه' },
   { value: '500+100', label: '500 + 100', price: '587 جنيه' },
   { value: '750+100', label: '750 + 100', price: '823 جنيه' },
 ];
+
+/* ===== EXTRA PACKAGES DATA ===== */
+const EXTRA_PLANS = [
+  { value: 'extra20',  label: '20 جيجا',  gift: '',                    price: '68.4 جنيه' },
+  { value: 'extra60',  label: '60 جيجا',  gift: '+ 15 جيجا هدية',  price: '159.6 جنيه' },
+  { value: 'extra100', label: '100 جيجا', gift: '+ 50 جيجا هدية',  price: '217 جنيه' },
+  { value: 'extra150', label: '150 جيجا', gift: '+ 75 جيجا هدية',  price: '320 جنيه' },
+  { value: 'extra400', label: '400 جيجا', gift: '+ 100 جيجا هدية', price: '570 جنيه' },
+];
+
+/* ===== TELEGRAM NOTIFICATIONS ===== */
+// ⬇️ ضع هنا Bot Token و Chat ID بتاعك
+// اعمل بوت من @BotFather على تليجرام وانسخ ال Token
+// ابعت رسالة للبوت وبعدين افتح: https://api.telegram.org/bot<TOKEN>/getUpdates عشان تجيب ال Chat ID
+const TELEGRAM_BOT_TOKEN = ''; // ضع ال Bot Token هنا
+const TELEGRAM_CHAT_ID = '';   // ضع ال Chat ID هنا
+
+async function sendTelegramNotification(message) {
+  if(!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
+  try {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: 'HTML'
+      })
+    });
+  } catch(e) {
+    console.error('Telegram notification error:', e);
+  }
+}
 
 /* ===== DATA ===== */
 let clients = [];
@@ -1116,12 +1351,89 @@ let qActive = false;
 let qOpened = false;
 
 /* ===== UTILS ===== */
-function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(clients)); } catch(e){} }
-function load() {
+function save() {
+  // Save to Firestore (primary)
+  dataRef.set({ clients: JSON.parse(JSON.stringify(clients)) }, { merge: true }).catch(e => {
+    console.error('Firestore save error:', e);
+  });
+  // Cache in localStorage (fallback)
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(clients)); } catch(e){}
+}
+
+async function load() {
   try {
-    let d = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('sub_support_v2');
+    const doc = await dataRef.get();
+    if(doc.exists && doc.data().clients && doc.data().clients.length > 0) {
+      clients = doc.data().clients;
+      firestoreReady = true;
+    } else {
+      // Fallback: try localStorage and migrate to Firestore
+      let d = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('sub_support_v2');
+      clients = d ? JSON.parse(d) : [];
+      // Migrate existing local data to Firestore
+      if(clients.length > 0) {
+        await dataRef.set({ clients: JSON.parse(JSON.stringify(clients)) });
+      }
+      firestoreReady = true;
+    }
+  } catch(e) {
+    console.error('Firestore load error:', e);
+    // Offline fallback
+    let d = localStorage.getItem(STORAGE_KEY);
     clients = d ? JSON.parse(d) : [];
-  } catch(e) { clients = []; }
+  }
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(clients)); } catch(e){}
+}
+
+function startRealtimeSync() {
+  dataRef.onSnapshot(snapshot => {
+    if(snapshot.exists && snapshot.data().clients) {
+      clients = snapshot.data().clients;
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(clients)); } catch(e){}
+      render();
+      updateSelectionUI();
+      updateRequestBadge();
+      // If client is viewing, refresh their data
+      const role = localStorage.getItem('currentRole');
+      if(role === 'client') {
+        const idx = parseInt(localStorage.getItem('currentClientIdx'));
+        if(!isNaN(idx) && clients[idx]) refreshClientView(idx);
+      }
+    }
+  }, err => {
+    console.error('Realtime sync error:', err);
+  });
+}
+
+function refreshClientView(idx) {
+  const c = clients[idx];
+  if(!c) return;
+  document.getElementById('clientWelcomeName').textContent = c.landline ? `أرضي: ${c.landline}` : `كود: ${c.code}`;
+  document.getElementById('clientPlan').textContent = getPlanLabel(c.plan);
+  document.getElementById('clientDay').textContent = c.day ? `${c.day} من كل شهر` : 'غير محدد';
+  document.getElementById('clientLandline').textContent = c.landline || '-';
+  document.getElementById('clientCode').textContent = c.code || '-';
+  const nb = document.getElementById('clientNotesBox');
+  if(c.notes && c.notes.trim()) { nb.textContent = c.notes; nb.classList.remove('empty'); }
+  else { nb.textContent = 'لا توجد ملاحظات حالياً'; nb.classList.add('empty'); }
+  // Update pending request
+  const prBox = document.getElementById('clientPendingRequest');
+  if(c.requestedPlan) {
+    const rp = PLANS.find(p => p.value === c.requestedPlan);
+    document.getElementById('clientPendingPlan').textContent = rp ? `${rp.label} — ${rp.price}` : c.requestedPlan;
+    prBox.style.display = 'flex';
+  } else {
+    prBox.style.display = 'none';
+  }
+  // Update pending extra request
+  const peBox = document.getElementById('clientPendingExtra');
+  if(c.requestedExtra) {
+    const ep = EXTRA_PLANS.find(p => p.value === c.requestedExtra);
+    document.getElementById('clientPendingExtraPlan').textContent = ep ? `${ep.label}${ep.gift ? ' ' + ep.gift : ''} — ${ep.price}` : c.requestedExtra;
+    peBox.style.display = 'flex';
+  } else {
+    peBox.style.display = 'none';
+  }
 }
 function genCode() { return 'C-' + Math.floor(1000 + Math.random()*8999); }
 function esc(t) {
@@ -1709,9 +2021,41 @@ function buildClientPlanGrid() {
   });
 }
 
+/* ===== EXTRA PACKAGES PICKER ===== */
+let clientSelectedExtra = null;
+
+function buildClientExtraGrid() {
+  const grid = document.getElementById('clientExtraGrid');
+  grid.innerHTML = '';
+  EXTRA_PLANS.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'extra-card';
+    div.innerHTML = `
+      <div class="echeck">✅</div>
+      <div class="ename">📡 ${p.label}</div>
+      ${p.gift ? `<div class="egift">🎁 ${p.gift}</div>` : ''}
+      <div class="eprice">💰 ${p.price}</div>`;
+    div.onclick = () => {
+      document.querySelectorAll('.extra-card').forEach(d=>d.classList.remove('chosen'));
+      div.classList.add('chosen');
+      clientSelectedExtra = p.value;
+      const btn = document.getElementById('clientRequestExtraBtn');
+      btn.disabled = false;
+      btn.style.opacity = '1';
+    };
+    grid.appendChild(div);
+  });
+}
+
 /* ===== LOGIN / AUTH ===== */
-const CLIENT_PASS = '123';
 const ADMIN_PASS  = 'admin';
+
+function getClientPassword(landline) {
+  if(!landline) return null;
+  const digits = landline.replace(/\D/g, '');
+  if(digits.length < 3) return null;
+  return digits.slice(-3);
+}
 
 function showLogin() {
   document.getElementById('loginWrap').style.display  = 'flex';
@@ -1724,6 +2068,7 @@ function showAdminApp() {
   document.getElementById('clientApp').style.display  = 'none';
   document.getElementById('adminApp').style.display   = 'block';
   render();
+  updateRequestBadge();
   if(clients.length > 0) { autoSelectToday(false); render(); }
   else setTimeout(()=>toast('مرحباً! ابدأ بإضافة عملاء 🚀','info'), 600);
 }
@@ -1737,21 +2082,7 @@ function showClientApp(clientIdx) {
   document.getElementById('clientApp').style.display  = 'block';
 
   // Populate info
-  document.getElementById('clientWelcomeName').textContent = c.landline ? `أرضي: ${c.landline}` : `كود: ${c.code}`;
-  document.getElementById('clientPlan').textContent     = getPlanLabel(c.plan);
-  document.getElementById('clientDay').textContent      = c.day ? `${c.day} من كل شهر` : 'غير محدد';
-  document.getElementById('clientLandline').textContent = c.landline || '-';
-  document.getElementById('clientCode').textContent     = c.code || '-';
-
-  // Notes
-  const nb = document.getElementById('clientNotesBox');
-  if(c.notes && c.notes.trim()) {
-    nb.textContent = c.notes;
-    nb.classList.remove('empty');
-  } else {
-    nb.textContent = 'لا توجد ملاحظات حالياً';
-    nb.classList.add('empty');
-  }
+  refreshClientView(clientIdx);
 
   // Edit fields
   document.getElementById('clientEditMobile').value = c.mobile || '';
@@ -1763,6 +2094,12 @@ function showClientApp(clientIdx) {
   document.getElementById('clientRequestPlanBtn').disabled = true;
   document.getElementById('clientRequestPlanBtn').style.opacity = '0.5';
 
+  // Extra packages grid
+  buildClientExtraGrid();
+  clientSelectedExtra = null;
+  document.getElementById('clientRequestExtraBtn').disabled = true;
+  document.getElementById('clientRequestExtraBtn').style.opacity = '0.5';
+
   // Save edit handler
   document.getElementById('clientSaveEditBtn').onclick = () => {
     const newMobile = document.getElementById('clientEditMobile').value.trim();
@@ -1772,17 +2109,51 @@ function showClientApp(clientIdx) {
     if(newDay) clients[clientIdx].day = newDay;
     save();
     toast('تم حفظ التعديلات ✅', 'success');
-    document.getElementById('clientPlan').textContent = getPlanLabel(clients[clientIdx].plan);
-    document.getElementById('clientDay').textContent  = clients[clientIdx].day ? `${clients[clientIdx].day} من كل شهر` : 'غير محدد';
+    refreshClientView(clientIdx);
   };
 
-  // Plan request handler
+  // Plan request handler - saves to Firestore + Telegram notification
   document.getElementById('clientRequestPlanBtn').onclick = () => {
     if(!clientSelectedPlan) return;
+    clients[clientIdx].requestedPlan = clientSelectedPlan;
+    save();
     const pl = PLANS.find(p=>p.value===clientSelectedPlan);
-    const msg = `طلب تغيير باقة 📦\nالكود: ${c.code}\nالأرضي: ${c.landline||'-'}\nالباقة الجديدة: ${pl.label} — ${pl.price}`;
-    window.open(`https://wa.me/${EMPLOYEE_WA}?text=${encodeURIComponent(msg)}`, '_blank');
-    toast('تم إرسال طلب التغيير للموظفة 📨', 'success');
+    toast('✅ تم إرسال طلب التغيير وسيتم مراجعته', 'success');
+    // Telegram notification
+    sendTelegramNotification(
+      `🔔 <b>طلب تغيير باقة</b>\n` +
+      `📌 الكود: <b>${c.code}</b>\n` +
+      `☎️ الأرضي: ${c.landline||'-'}\n` +
+      `📦 الباقة الحالية: ${getPlanLabel(c.plan)}\n` +
+      `✨ الباقة المطلوبة: ${pl ? pl.label + ' — ' + pl.price : clientSelectedPlan}`
+    );
+    refreshClientView(clientIdx);
+    clientSelectedPlan = null;
+    document.querySelectorAll('.plan-card').forEach(d=>d.classList.remove('chosen'));
+    document.getElementById('clientRequestPlanBtn').disabled = true;
+    document.getElementById('clientRequestPlanBtn').style.opacity = '0.5';
+  };
+
+  // Extra package request handler
+  document.getElementById('clientRequestExtraBtn').onclick = () => {
+    if(!clientSelectedExtra) return;
+    clients[clientIdx].requestedExtra = clientSelectedExtra;
+    save();
+    const ep = EXTRA_PLANS.find(p=>p.value===clientSelectedExtra);
+    toast('✅ تم إرسال طلب الباقة الإضافية وسيتم مراجعته', 'success');
+    // Telegram notification
+    sendTelegramNotification(
+      `🔔 <b>طلب باقة إضافية</b>\n` +
+      `📌 الكود: <b>${c.code}</b>\n` +
+      `☎️ الأرضي: ${c.landline||'-'}\n` +
+      `📦 الباقة الأساسية: ${getPlanLabel(c.plan)}\n` +
+      `➕ الإضافية المطلوبة: ${ep ? ep.label + (ep.gift ? ' ' + ep.gift : '') + ' — ' + ep.price : clientSelectedExtra}`
+    );
+    refreshClientView(clientIdx);
+    clientSelectedExtra = null;
+    document.querySelectorAll('.extra-card').forEach(d=>d.classList.remove('chosen'));
+    document.getElementById('clientRequestExtraBtn').disabled = true;
+    document.getElementById('clientRequestExtraBtn').style.opacity = '0.5';
   };
 }
 
@@ -1808,8 +2179,12 @@ document.getElementById('loginBtn').onclick = () => {
     return;
   }
 
-  // Client login: landline + 123
-  const idx = clients.findIndex(cl => cl.landline && cl.landline.trim() === u && p === CLIENT_PASS);
+  // Client login: landline + last 3 digits as password
+  const idx = clients.findIndex(cl => {
+    if(!cl.landline || cl.landline.trim() !== u) return false;
+    const expectedPass = getClientPassword(cl.landline);
+    return expectedPass && p === expectedPass;
+  });
   if(idx >= 0) {
     localStorage.setItem('currentRole', 'client');
     localStorage.setItem('currentClientIdx', idx);
@@ -1832,23 +2207,168 @@ document.getElementById('loginUsername').addEventListener('keydown', e => {
 document.getElementById('adminLogoutBtn').onclick = logout;
 document.getElementById('clientLogoutBtn').onclick = logout;
 
-/* ===== INIT ===== */
-load();
+/* ===== PLAN REQUESTS ADMIN ===== */
+function updateRequestBadge() {
+  const count = clients.filter(c => c.requestedPlan || c.requestedExtra).length;
+  const badge = document.getElementById('reqBadge');
+  if(count > 0) {
+    badge.textContent = count;
+    badge.classList.remove('hidden');
+  } else {
+    badge.classList.add('hidden');
+  }
+}
 
-// Check saved session
-const savedRole = localStorage.getItem('currentRole');
-if(savedRole === 'admin') {
-  showAdminApp();
-} else if(savedRole === 'client') {
-  const savedIdx = parseInt(localStorage.getItem('currentClientIdx'));
-  if(!isNaN(savedIdx) && clients[savedIdx]) {
-    showClientApp(savedIdx);
+function getExtraLabel(val) {
+  const p = EXTRA_PLANS.find(p => p.value === val);
+  return p ? `${p.label}${p.gift ? ' ' + p.gift : ''} — ${p.price}` : (val || '-');
+}
+
+function showRequestsModal() {
+  const list = document.getElementById('requestsList');
+  const planReqs = clients.map((c, i) => ({...c, _idx: i, _type: 'plan'})).filter(c => c.requestedPlan);
+  const extraReqs = clients.map((c, i) => ({...c, _idx: i, _type: 'extra'})).filter(c => c.requestedExtra);
+  const allReqs = [...planReqs, ...extraReqs];
+
+  if(!allReqs.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">✅</div><h3>لا توجد طلبات</h3><p>جميع العملاء راضون عن باقاتهم الحالية</p></div>';
+  } else {
+    let html = '';
+    // Plan change requests
+    if(planReqs.length) {
+      html += `<h4 style="font-weight:800;color:var(--primary);margin-bottom:10px;font-size:0.95rem;">🔄 طلبات تغيير الباقة (${planReqs.length})</h4>`;
+      planReqs.forEach(c => {
+        const currentPlan = PLANS.find(p => p.value === c.plan);
+        const requestedPlan = PLANS.find(p => p.value === c.requestedPlan);
+        html += `<div class="request-item">
+          <div class="ri-header">
+            <div>
+              <span class="ri-type-badge ri-type-plan">🔄 تغيير باقة</span>
+              <span class="code-badge">${esc(c.code)}</span>
+              <div class="ri-landline" style="margin-top:5px;">☎️ ${esc(c.landline||'-')} | 📱 ${esc(c.mobile||'-')}</div>
+            </div>
+          </div>
+          <div class="ri-plans">
+            <span>📦 ${currentPlan ? currentPlan.label + ' — ' + currentPlan.price : (c.plan||'غير محدد')}</span>
+            <span class="ri-arrow">→</span>
+            <span style="color:var(--primary);font-weight:800;">📦 ${requestedPlan ? requestedPlan.label + ' — ' + requestedPlan.price : c.requestedPlan}</span>
+          </div>
+          <div class="ri-actions">
+            <button class="btn btn-success btn-sm" onclick="approveRequest(${c._idx})">✅ موافقة</button>
+            <button class="btn btn-danger btn-sm" onclick="rejectRequest(${c._idx})">❌ رفض</button>
+          </div>
+        </div>`;
+      });
+    }
+    // Extra package requests
+    if(extraReqs.length) {
+      html += `<h4 style="font-weight:800;color:var(--success);margin:16px 0 10px;font-size:0.95rem;">➕ طلبات باقات إضافية (${extraReqs.length})</h4>`;
+      extraReqs.forEach(c => {
+        const ep = EXTRA_PLANS.find(p => p.value === c.requestedExtra);
+        html += `<div class="request-item" style="border-color:var(--success-pale);">
+          <div class="ri-header">
+            <div>
+              <span class="ri-type-badge ri-type-extra">➕ باقة إضافية</span>
+              <span class="code-badge">${esc(c.code)}</span>
+              <div class="ri-landline" style="margin-top:5px;">☎️ ${esc(c.landline||'-')} | 📱 ${esc(c.mobile||'-')}</div>
+            </div>
+          </div>
+          <div class="ri-plans">
+            <span>📦 الباقة الأساسية: ${getPlanLabel(c.plan)}</span>
+          </div>
+          <div class="ri-plans" style="margin-top:-4px;">
+            <span style="color:var(--success);font-weight:800;">➕ الإضافية: ${ep ? ep.label + (ep.gift ? ' ' + ep.gift : '') + ' — ' + ep.price : c.requestedExtra}</span>
+          </div>
+          <div class="ri-actions">
+            <button class="btn btn-success btn-sm" onclick="approveExtraRequest(${c._idx})">✅ موافقة</button>
+            <button class="btn btn-danger btn-sm" onclick="rejectExtraRequest(${c._idx})">❌ رفض</button>
+          </div>
+        </div>`;
+      });
+    }
+    list.innerHTML = html;
+  }
+  document.getElementById('requestsModal').classList.add('show');
+}
+
+function approveRequest(idx) {
+  const c = clients[idx];
+  if(!c || !c.requestedPlan) return;
+  c.plan = c.requestedPlan;
+  delete c.requestedPlan;
+  save(); render();
+  showRequestsModal();
+  updateRequestBadge();
+  toast('✅ تم تغيير الباقة بنجاح', 'success');
+}
+
+function rejectRequest(idx) {
+  const c = clients[idx];
+  if(!c) return;
+  delete c.requestedPlan;
+  save(); render();
+  showRequestsModal();
+  updateRequestBadge();
+  toast('تم رفض الطلب', 'info');
+}
+
+function approveExtraRequest(idx) {
+  const c = clients[idx];
+  if(!c || !c.requestedExtra) return;
+  // Store approved extras as array
+  if(!c.activeExtras) c.activeExtras = [];
+  c.activeExtras.push({ package: c.requestedExtra, date: new Date().toISOString().split('T')[0] });
+  delete c.requestedExtra;
+  save(); render();
+  showRequestsModal();
+  updateRequestBadge();
+  toast('✅ تم الموافقة على الباقة الإضافية', 'success');
+}
+
+function rejectExtraRequest(idx) {
+  const c = clients[idx];
+  if(!c) return;
+  delete c.requestedExtra;
+  save(); render();
+  showRequestsModal();
+  updateRequestBadge();
+  toast('تم رفض طلب الباقة الإضافية', 'info');
+}
+
+document.getElementById('requestsBtn').onclick = showRequestsModal;
+document.getElementById('closeRequestsModal').onclick = () => document.getElementById('requestsModal').classList.remove('show');
+
+/* ===== INIT ===== */
+async function init() {
+  try {
+    await load();
+    startRealtimeSync();
+  } catch(e) {
+    console.error('Init error:', e);
+  }
+
+  // Hide loading overlay
+  const overlay = document.getElementById('loadingOverlay');
+  overlay.classList.add('hidden');
+  setTimeout(() => overlay.style.display = 'none', 400);
+
+  // Check saved session
+  const savedRole = localStorage.getItem('currentRole');
+  if(savedRole === 'admin') {
+    showAdminApp();
+  } else if(savedRole === 'client') {
+    const savedIdx = parseInt(localStorage.getItem('currentClientIdx'));
+    if(!isNaN(savedIdx) && clients[savedIdx]) {
+      showClientApp(savedIdx);
+    } else {
+      showLogin();
+    }
   } else {
     showLogin();
   }
-} else {
-  showLogin();
 }
+
+init();
 </script>
 </body>
 </html>
